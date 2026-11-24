@@ -19,3 +19,13 @@ with gpiod.request_lines(
             time.sleep(0.5)
     except KeyboardInterrupt:
         print("\nStopped")
+
+from kivy.app import App
+from kivy.uix.label import Label
+
+class BasicApp(App):
+    def build(self):
+        label = Label(text="Hello World")
+        return label
+app = BasicApp()
+    
