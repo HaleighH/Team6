@@ -17,11 +17,11 @@ class LedApp(App):
         self.request.set_value(LED_PIN, Value.INACTIVE)
 
         self.button = ToggleButton(text="LED OFF", font_size=40)
-        self.button.bind(on_press=self.toggle_led)
+        self.button.bind(state=self.toggle_led)
         return self.button
 
-    def toggle_led(self, button):
-        if button.state == "down":
+    def toggle_led(self, button, state):
+        if state == "down":
             self.request.set_value(LED_PIN, Value.ACTIVE)
             button.text = "LED ON"
         else:
