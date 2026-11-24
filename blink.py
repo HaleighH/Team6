@@ -1,35 +1,41 @@
-import time
 import gpiod
 from gpiod.line import Direction, Value
 
+from kivy.app import App
+from kivy.uix.togglebutton import ToggleButton
+
 LED_PIN = 26
 
-from kivy.app import App
-from kivy.uix.label import Label
 
-class BasicApp(App):
+class LedApp(App):
     def build(self):
-        label = Label(text="Hello World")
-        return label
+        # Request the GPIO line once when the app starts
+        self.request = gpiod.request_lines(
+            "/dev/gpiochip0",
+            consumer="led-button",
+            config={LED_PIN: gpiod.LineSettings(direction=Direction.OUTPUT)},
+        )
+        self.request.set_value(LED_PIN, Value.INACTIVE)
 
-app = BasicApp()
-app.run()
+        self.button = ToggleButton(text="LED OFF", font_size=40)
+        self.button.bind(on_press=self.toggle_led)
+        return self.button
 
-with gpiod.request_lines(
-    "/dev/gpiochip0",
-    consumer="blink",
-    config={LED_PIN: gpiod.LineSettings(direction=Direction.OUTPUT)},
-) as request:
-    print(f"Blinking LED connected to GPIO pin {LED_PIN}")
-    try:
-        while True:  # Ctrl+C to end
-            request.set_value(LED_PIN, Value.ACTIVE)
-            time.sleep(0.5)
+    def toggle_led(self, button):
+        if button.state == "down":
+            self.request.set_value(LED_PIN, Value.ACTIVE)
+            button.text = "LED ON"
+        else:
+            self.request.set_value(LED_PIN, Value.INACTIVE)
+            button.text = "LED OFF"
 
-            request.set_value(LED_PIN, Value.INACTIVE)
-            time.sleep(0.5)
-    except KeyboardInterrupt:
-        print("\nStopped")
+    def on_stop(self):
+        # Turn the LED off and release the GPIO line when the window closes
+        self.request.set_value(LED_PIN, Value.INACTIVE)
+        self.request.release()
+
+
+LedApp().run()
 
 
     
