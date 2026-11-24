@@ -30,11 +30,20 @@ class LedApp(App): # Defines your app by inheriting from Kivy's App
         self.last_toggle = 0.0 # records the time of the last accepted tap
 
         # Creates the button:
-        self.button = Button(text="OFF", font_size=40)
+        self.button = Button(
+            text="LED OFF",
+            font_size=30,
+            size_hint=(None, None),         # stop it from filling the window
+            size=(200, 100),                # width, height in pixels
+            pos_hint={"center_x": 0.5, "center_y": 0.5},  # center it
+        )
         # when the button is released, Kivy calls self.toggle_led
         self.button.bind(on_release=self.toggle_led)
+
+        layout = FloatLayout()
+        layout.add_widget(self.button)
         # Hands the button to Kivy as the whole window's content.
-        return self.button
+        return layout
 
     # Runs on every release
     def toggle_led(self, button):
