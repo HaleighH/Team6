@@ -11,6 +11,8 @@ from gpiod.line import Direction, Value # Direction (input or output) and Value 
 from kivy.app import App # base class for every Kivy program
 from kivy.uix.button import Button # clickable widget
 
+from kivy.uix.floatlayout import FloatLayout # freely position and size UI elements
+
 LED_PIN = 26
 DEBOUNCE_SECONDS = 0.3 # how long to ignore extra taps after one registers
 
