@@ -9,7 +9,6 @@ LED_PIN = 26
 
 class LedApp(App):
     def build(self):
-        # Request the GPIO line once when the app starts
         self.request = gpiod.request_lines(
             "/dev/gpiochip0",
             consumer="led-button",
@@ -30,12 +29,8 @@ class LedApp(App):
             button.text = "LED OFF"
 
     def on_stop(self):
-        # Turn the LED off and release the GPIO line when the window closes
         self.request.set_value(LED_PIN, Value.INACTIVE)
         self.request.release()
 
 
 LedApp().run()
-
-
-    
