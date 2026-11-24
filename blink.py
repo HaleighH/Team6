@@ -11,7 +11,9 @@ class BasicApp(App):
     def build(self):
         label = Label(text="Hello World")
         return label
+
 app = BasicApp()
+app.run()
 
 with gpiod.request_lines(
     "/dev/gpiochip0",
