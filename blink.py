@@ -4,6 +4,15 @@ from gpiod.line import Direction, Value
 
 LED_PIN = 26
 
+from kivy.app import App
+from kivy.uix.label import Label
+
+class BasicApp(App):
+    def build(self):
+        label = Label(text="Hello World")
+        return label
+app = BasicApp()
+
 with gpiod.request_lines(
     "/dev/gpiochip0",
     consumer="blink",
@@ -20,12 +29,5 @@ with gpiod.request_lines(
     except KeyboardInterrupt:
         print("\nStopped")
 
-from kivy.app import App
-from kivy.uix.label import Label
 
-class BasicApp(App):
-    def build(self):
-        label = Label(text="Hello World")
-        return label
-app = BasicApp()
     
