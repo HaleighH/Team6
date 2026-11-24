@@ -7,10 +7,8 @@ Config.set("input", "mouse", "mouse,disable_multitouch")
 
 import gpiod # library that controls the Pi's GPIO pins.
 from gpiod.line import Direction, Value # Direction (input or output) and Value (on or off)
-
 from kivy.app import App # base class for every Kivy program
 from kivy.uix.button import Button # clickable widget
-
 from kivy.uix.floatlayout import FloatLayout # freely position and size UI elements
 
 LED_PIN = 26
@@ -33,7 +31,7 @@ class LedApp(App): # Defines your app by inheriting from Kivy's App
 
         # Creates the button:
         self.button = Button(
-            text="LED OFF",
+            text="OFF",
             font_size=30,
             size_hint=(None, None),         # stop it from filling the window
             size=(200, 100),                # width, height in pixels
